@@ -47,6 +47,7 @@ namespace Microsoft.Health.Fhir.SqlServer.Features.Storage
         private ConcurrentDictionary<string, int> _quantityCodeToId;
         private Dictionary<string, byte> _claimNameToId;
         private Dictionary<CompartmentType, byte> _compartmentTypeToId;
+        private Dictionary<string, byte> _compartmentTypeNameToId;
 
         public SqlServerFhirModel(
             SqlServerDataStoreConfiguration configuration,
@@ -103,6 +104,12 @@ namespace Microsoft.Health.Fhir.SqlServer.Features.Storage
         {
             ThrowIfNotInitialized();
             return _compartmentTypeToId[compartmentType];
+        }
+
+        public byte GetCompartmentId(string compartmentType)
+        {
+            ThrowIfNotInitialized();
+            return _compartmentTypeNameToId[compartmentType];
         }
 
         public int GetSystem(string system)
@@ -259,6 +266,7 @@ namespace Microsoft.Health.Fhir.SqlServer.Features.Storage
                         _quantityCodeToId = quantityCodeToId;
                         _claimNameToId = claimNameToId;
                         _compartmentTypeToId = compartmentTypeToId;
+                        _compartmentTypeNameToId = compartmentTypeToId.ToDictionary(p => p.Key.ToString(), p => p.Value, StringComparer.OrdinalIgnoreCase);
                     }
                 }
             }

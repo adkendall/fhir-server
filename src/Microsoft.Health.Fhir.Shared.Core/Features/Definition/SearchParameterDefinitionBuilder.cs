@@ -99,8 +99,8 @@ namespace Microsoft.Health.Fhir.Core.Features.Definition
         private static bool ShouldExcludeEntry(string resourceType, string searchParameterName)
         {
             return (resourceType == ResourceType.DomainResource.ToString() && searchParameterName == "_text") ||
-                (resourceType == ResourceType.Resource.ToString() && searchParameterName == "_content") ||
-                (resourceType == ResourceType.Resource.ToString() && searchParameterName == "_query")
+                   (resourceType == ResourceType.Resource.ToString() && searchParameterName == "_content") ||
+                   (resourceType == ResourceType.Resource.ToString() && searchParameterName == "_query")
 #if Stu3
                 || (resourceType == ResourceType.DataElement.ToString() && (searchParameterName == "objectClass" || searchParameterName == "objectClassProperty"))
 #endif
@@ -165,7 +165,7 @@ namespace Microsoft.Health.Fhir.Core.Features.Definition
             var validatedSearchParameters = new List<(string ResourceType, SearchParameter SearchParameter)>
             {
                 // _type is currently missing from the search params definition bundle, so we inject it in here.
-                (ResourceType.Resource.ToString(), new SearchParameter { Name = SearchParameterNames.ResourceType, Expression = "Resource.type().name", Type = SearchParamType.Token }),
+                (ResourceType.Resource.ToString(), new SearchParameter { Name = SearchParameterNames.ResourceType, Expression = "Resource.type().name", Type = SearchParamType.Token, Url = SearchParameterNames.ResourceTypeUri.ToString() }),
             };
 
             // Do the second pass to make sure the definition is valid.
